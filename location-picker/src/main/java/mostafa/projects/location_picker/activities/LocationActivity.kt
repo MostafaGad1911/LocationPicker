@@ -8,10 +8,12 @@ import android.location.Geocoder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,19 +26,21 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import mostafa.projects.location_picker.PermissionUtils
 import mostafa.projects.location_picker.R
 import mostafa.projects.location_picker.model.Address
 import java.lang.Exception
 import java.util.*
 
-internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickListener{
+class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickListener{
 
-    private lateinit var mMap: GoogleMap
+    lateinit var location_address_map: SupportMapFragment
 
     var countryLatitude: Double? = 0.0
     var countryLongitude: Double? = 0.0
 
     lateinit var newUserLatLng: LatLng
+    private var enableLocationPermissionRequest = true
 
     var address = ""
     lateinit var confirm_loc_address_btn:Button
@@ -46,6 +50,11 @@ internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View
         setContentView(R.layout.activity_location)
 
         confirm_loc_address_btn = findViewById(R.id.confirm_loc_address_btn)
+        location_address_map =
+            (supportFragmentManager?.findFragmentById(R.id.detector_map) as? SupportMapFragment)!!
+        location_address_map.getMapAsync(this)
+
+
         confirm_loc_address_btn.setOnClickListener(this)
         intent.let {
             countryLatitude = it.getDoubleExtra("latitude", 0.0)
@@ -57,9 +66,37 @@ internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View
         mapFragment.getMapAsync(this)
     }
 
+    private fun checkLocationPermission() {
+        if (enableLocationPermissionRequest &&
+            PermissionUtils.shouldRequestLocationStoragePermission(applicationContext)
+        ) {
+            PermissionUtils.requestLocationPermission(this)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        when (requestCode) {
+            1 -> {
+                if (grantResults.isNotEmpty() && grantResults[0] ==
+                    PackageManager.PERMISSION_GRANTED) {
+                    if ((ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION) ===
+                                PackageManager.PERMISSION_GRANTED)) {
+                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                }
+                return
+            }
+        }
+    }
+
+
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_map_2))
+        Log.i("LocationReady" , "launched")
+        googleMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_map_2))
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -68,20 +105,14 @@ internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
             return
         }
-        mMap.isMyLocationEnabled = true
+        googleMap.isMyLocationEnabled = true
+        Log.i("isMyLocationEnabled" , "launched")
 
         if (countryLatitude != null && countryLongitude != null) {
             val latLng = LatLng(countryLatitude!!, countryLongitude!!)
-            mMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         }
 
         googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
@@ -109,12 +140,18 @@ internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View
                                 }
                             } else {
                                 address = ""
-                                Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+                                withContext(Dispatchers.Main){
+                                    Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+
+                                }
 
                             }
                         } catch (e: Exception) {
                             address = ""
-                            Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+                            withContext(Dispatchers.Main){
+                                Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+
+                            }
                         }
                     }
 
@@ -142,6 +179,8 @@ internal class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View
                     addressObj.lat = newUserLatLng.latitude
                     addressObj.long = newUserLatLng.longitude
                     addressObj.title = address
+
+                    showToast(address)
 
                     val intent = Intent()
                     intent.putExtra("addressObj", addressObj)

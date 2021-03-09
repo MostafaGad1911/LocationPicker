@@ -1,1 +1,5 @@
-<resources></resources>
+<resources>
+    <string name="retry_error">Something went wrong, please try again later</string>
+    <string name="add_address">Add address</string>
+
+</resources>
