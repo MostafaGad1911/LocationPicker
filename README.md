@@ -1,3 +1,4 @@
+#بلغة القران نبدأ
 # LocationPicker
 
   implementation 'com.github.MostafaGad1911:SharedSettings:Tag'
