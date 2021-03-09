@@ -120,7 +120,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                 googleMap?.clear()
                 if (p0 != null) {
                     newUserLatLng = p0
-                    val markerOptions = MarkerOptions().position(newUserLatLng).title("CUT")
+                    val markerOptions = MarkerOptions().position(newUserLatLng)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE))
                     googleMap!!.addMarker(markerOptions)
                     CoroutineScope(Dispatchers.IO).launch {
@@ -135,7 +135,9 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                             )
                             if (addresses != null) {
                                 var title = addresses[0].getAddressLine(0)
+
                                 withContext(Dispatchers.Main) {
+                                    markerOptions.title(title)
                                     address = title
                                 }
                             } else {
@@ -183,7 +185,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                     showToast(address)
 
                     val intent = Intent()
-                    intent.putExtra("addressObj", addressObj)
+                    intent.putExtra("addressDetected", addressObj)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
