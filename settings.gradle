@@ -1,0 +1,3 @@
+rootProject.name = "LocationPicker"
+include ':app'
+include ':location-picker'
