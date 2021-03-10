@@ -5,10 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:layout_margin="10dp"
     android:background="@android:color/transparent"
     app:cardBackgroundColor="@android:color/transparent"
-    app:cardCornerRadius="25sp"
+    android:layout_margin="10dp"
     tools:context=".activities.LocationActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout

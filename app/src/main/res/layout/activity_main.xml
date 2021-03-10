@@ -12,11 +12,63 @@
         android:id="@+id/city_name_txt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/pick_loc_btn"
+        app:layout_constraintBottom_toTopOf="@id/state_name_txt"
         android:gravity="center"
         android:textColor="@color/black"
         android:layout_marginBottom="10dp"
         android:hint="City name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/state_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/country_name_txt"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:hint="State name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/country_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/postalCode_name_txt"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:hint="Country name"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/postalCode_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/knownName_name_txt"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:hint="Postal Code"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/knownName_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/latlong_name_txt"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:hint="Known name"/>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/latlong_name_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/pick_loc_btn"
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:layout_marginBottom="10dp"
+        android:hint="Lat Long"/>
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/pick_loc_btn"

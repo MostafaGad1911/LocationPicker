@@ -5,23 +5,23 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import androidx.appcompat.app.AppCompatActivity
+import android.location.Location
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MapStyleOptions
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -29,7 +29,6 @@ import kotlinx.coroutines.withContext
 import mostafa.projects.location_picker.PermissionUtils
 import mostafa.projects.location_picker.R
 import mostafa.projects.location_picker.model.Address
-import java.lang.Exception
 import java.util.*
 
 class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickListener{
@@ -44,6 +43,10 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
 
     var address = ""
     lateinit var confirm_loc_address_btn:Button
+    var addressObj = Address()
+
+    var userCurrentLoc:LatLng? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +62,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
         intent.let {
             countryLatitude = it.getDoubleExtra("latitude", 0.0)
             countryLongitude = it.getDoubleExtra("longitude", 0.0)
+            userCurrentLoc = LatLng(countryLatitude!! , countryLongitude!!)
         }
 
         val mapFragment = supportFragmentManager
@@ -96,6 +100,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
 
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("LocationReady" , "launched")
+
         googleMap?.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.style_map_2))
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -110,9 +115,12 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
         googleMap.isMyLocationEnabled = true
         Log.i("isMyLocationEnabled" , "launched")
 
-        if (countryLatitude != null && countryLongitude != null) {
-            val latLng = LatLng(countryLatitude!!, countryLongitude!!)
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+        if (userCurrentLoc != null) {
+            val cameraPosition =
+                CameraPosition.Builder().target(LatLng(userCurrentLoc?.latitude!!, userCurrentLoc?.longitude!!)).zoom(16.0f)
+                    .build()
+            val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+            googleMap.moveCamera(cameraUpdate)
         }
 
         googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
@@ -135,6 +143,36 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                             )
                             if (addresses != null) {
                                 var title = addresses[0].getAddressLine(0)
+                                var addressValue =
+                                    addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+                                val city = addresses[0].locality
+                                val state = addresses[0].adminArea
+                                val country = addresses[0].countryName
+                                val postalCode = addresses[0].postalCode
+                                val knownName = addresses[0].featureName // Only if available else return NULL
+
+
+                                if(city != null){
+                                    addressObj.city = city
+                                }
+
+                                if(state != null){
+                                    addressObj.state = state
+                                }
+
+                                if(country != null){
+                                    addressObj.country = country
+                                }
+
+                                if(postalCode != null){
+                                    addressObj.postalCode = postalCode
+                                }
+
+                                if(knownName != null){
+                                    addressObj.knownName = knownName
+                                }
+
 
                                 withContext(Dispatchers.Main) {
                                     markerOptions.title(title)
@@ -143,7 +181,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                             } else {
                                 address = ""
                                 withContext(Dispatchers.Main){
-                                    Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@LocationActivity, "Cannot detect your address please try again", Toast.LENGTH_LONG).show()
 
                                 }
 
@@ -151,7 +189,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                         } catch (e: Exception) {
                             address = ""
                             withContext(Dispatchers.Main){
-                                Toast.makeText(this@LocationActivity, getString(R.string.retry_error), Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@LocationActivity, "Cannot detect your address please try again", Toast.LENGTH_LONG).show()
 
                             }
                         }
@@ -177,10 +215,8 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                 } else if (TextUtils.isEmpty(address)) {
                     showToast(getString(R.string.add_address))
                 } else {
-                    var addressObj = Address()
                     addressObj.lat = newUserLatLng.latitude
                     addressObj.long = newUserLatLng.longitude
-                    addressObj.title = address
 
                     showToast(address)
 
