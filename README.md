@@ -1,4 +1,4 @@
-- Few lines of code to detect your address , lat , long from map , just intent for activity with result and click pick location button affter detecting your location on map to start geocoding process to get your address
+- Few lines of code to detect your address , lat , long from map , just intent to location activity with result and click pick location button affter detecting your location on map to start geocoding process to get your address
 
     var locationIntent = Intent(this, LocationActivity::class.java)
     startActivityForResult(locationIntent, 2021)
@@ -68,9 +68,9 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 
  <img src="https://user-images.githubusercontent.com/25991597/110532061-09049380-8125-11eb-983c-1830f290ddae.jpg" width="400" height="800" />
 
- <img src="https://user-images.githubusercontent.com/25991597/110532068-099d2a00-8125-11eb-8122-6a5a29f8967f.jpg" width="400" height="800" />
+ <img src="https://user-images.githubusercontent.com/25991597/110699130-3883d080-81f7-11eb-9d22-b5395aa54cb6.jpg" width="400" height="800" />
  
-  <img src="https://user-images.githubusercontent.com/25991597/110681641-b38ebc00-81e2-11eb-93d7-e4685c3da4f7.jpg" width="400" height="800" />
+ <img src="https://user-images.githubusercontent.com/25991597/110681641-b38ebc00-81e2-11eb-93d7-e4685c3da4f7.jpg" width="400" height="800" />
 
 
 
