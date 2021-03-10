@@ -70,7 +70,7 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 
  <img src="https://user-images.githubusercontent.com/25991597/110699130-3883d080-81f7-11eb-9d22-b5395aa54cb6.jpg" width="400" height="800" />
  
- <img src="https://user-images.githubusercontent.com/25991597/110681641-b38ebc00-81e2-11eb-93d7-e4685c3da4f7.jpg" width="400" height="800" />
+ 
 
 
 
