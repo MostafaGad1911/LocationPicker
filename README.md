@@ -1,8 +1,7 @@
 - Few lines of code to detect your address , lat , long from map , just intent to location activity with result and click pick location button affter detecting your location on map to start geocoding process to get your address
 
-    var locationIntent = Intent(this, LocationActivity::class.java)
-    
-    startActivityForResult(locationIntent, 2021)
+     var locationIntent = Intent(this, LocationActivity::class.java)
+     startActivityForResult(locationIntent, 2021)
 
 you can pass your current location to map with this parameters
 
