@@ -42,8 +42,6 @@ android {
 dependencies {
     // map
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    implementation platform('com.google.firebase:firebase-bom:26.6.0')
-    implementation 'com.google.firebase:firebase-analytics-ktx'
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.8'
     // Fused location
