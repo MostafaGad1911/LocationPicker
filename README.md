@@ -38,11 +38,7 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 
 
 # LocationPicker
-
-  ** add firebase analytic first implementation 'com.google.firebase:firebase-analytics:17.5.0' ** <br />
-  implementation 'com.github.MostafaGad1911:SharedSettings:Tag'
-
-   
+  
 # Step 1
           Add it in your root build.gradle at the end of repositories:
           
@@ -56,7 +52,7 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 
 # Step 2 : Add the dependency
  
-
+           ** add firebase analytic first implementation 'com.google.firebase:firebase-analytics:17.5.0' ** <br />
 	   implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
 	   
 	
