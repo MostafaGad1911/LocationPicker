@@ -51,9 +51,9 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 	       }
 
 # Step 2 : Add the dependency
- 
-           implementation 'com.google.firebase:firebase-analytics:17.5.0'  <br />
-	   implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
+
+        implementation 'com.google.firebase:firebase-analytics:17.5.0'
+        implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
 	   
 	
 	
