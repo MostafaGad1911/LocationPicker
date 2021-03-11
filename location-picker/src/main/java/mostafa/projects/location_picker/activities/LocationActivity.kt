@@ -15,6 +15,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.PermissionChecker
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -46,16 +47,19 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
     var addressObj = Address()
 
     var userCurrentLoc:LatLng? = null
+    lateinit var userLatLng:LatLng
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_location)
+        initObjects()
+        checkPermissions()
 
         confirm_loc_address_btn = findViewById(R.id.confirm_loc_address_btn)
         location_address_map =
             (supportFragmentManager?.findFragmentById(R.id.detector_map) as? SupportMapFragment)!!
-        location_address_map.getMapAsync(this)
 
 
         confirm_loc_address_btn.setOnClickListener(this)
@@ -65,35 +69,86 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
             userCurrentLoc = LatLng(countryLatitude!! , countryLongitude!!)
         }
 
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.detector_map) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+    }
+    fun initObjects(){
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this!!)
     }
 
-    private fun checkLocationPermission() {
-        if (enableLocationPermissionRequest &&
-            PermissionUtils.shouldRequestLocationStoragePermission(applicationContext)
-        ) {
-            PermissionUtils.requestLocationPermission(this)
-        }
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
                                             grantResults: IntArray) {
         when (requestCode) {
-            1 -> {
+            120 -> {
                 if (grantResults.isNotEmpty() && grantResults[0] ==
                     PackageManager.PERMISSION_GRANTED) {
-                    if ((ContextCompat.checkSelfPermission(this,
+                    if ((ContextCompat.checkSelfPermission(this@LocationActivity,
                             Manifest.permission.ACCESS_FINE_LOCATION) ===
                                 PackageManager.PERMISSION_GRANTED)) {
                         Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
+                        mFusedLocationClient.lastLocation
+                            .addOnSuccessListener { location: Location? ->
+                                try {
+                                    userLatLng = LatLng(location!!.latitude, location!!.longitude)
+                                    var locationIntent = Intent(this, LocationActivity::class.java)
+                                    if(userLatLng != null){
+                                        locationIntent.putExtra("latitude" , userLatLng.latitude)
+                                        locationIntent.putExtra("longitude" , userLatLng.longitude)
+                                        userCurrentLoc = userLatLng
+
+                                    }
+                                    location_address_map.getMapAsync(this)
+
+//                                    showToast("${userLatLng.latitude},${userLatLng.longitude}")
+
+                                } catch (e: NullPointerException) {
+
+                                }
+                            }.addOnFailureListener {
+                                Log.w("LocationException", it!!.message!!)
+                            }
+
                     }
                 } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
+                    finish()
+                    showToast("Permission denied")
                 }
                 return
             }
+        }
+    }
+
+    fun checkPermissions() {
+        val requiredPermission = Manifest.permission.ACCESS_FINE_LOCATION
+        val checkVal: Int =
+            PermissionChecker.checkCallingOrSelfPermission(this, requiredPermission)
+        if (checkVal == PackageManager.PERMISSION_GRANTED) {
+            mFusedLocationClient.lastLocation
+                .addOnSuccessListener { location: Location? ->
+                    try {
+                        userLatLng = LatLng(location!!.latitude, location!!.longitude)
+                        var locationIntent = Intent(this, LocationActivity::class.java)
+                        if(userLatLng != null){
+                            locationIntent.putExtra("latitude" , userLatLng.latitude)
+                            locationIntent.putExtra("longitude" , userLatLng.longitude)
+                            userCurrentLoc = userLatLng
+
+                        }
+                        location_address_map.getMapAsync(this)
+
+                    } catch (e: NullPointerException) {
+
+                    }
+                }.addOnFailureListener {
+                    Log.w("LocationException", it!!.message!!)
+                }
+
+
+
+        } else {
+            ActivityCompat.requestPermissions(
+                this!!,
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 120
+            )
         }
     }
 
@@ -217,9 +272,6 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                 } else {
                     addressObj.lat = newUserLatLng.latitude
                     addressObj.long = newUserLatLng.longitude
-
-                    showToast(address)
-
                     val intent = Intent()
                     intent.putExtra("addressDetected", addressObj)
                     setResult(Activity.RESULT_OK, intent)

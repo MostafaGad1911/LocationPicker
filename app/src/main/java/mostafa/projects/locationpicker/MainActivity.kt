@@ -178,7 +178,9 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         when(v?.id){
             R.id.pick_loc_btn -> {
 
-                checkPermissions()
+                var locationIntent = Intent(this, LocationActivity::class.java)
+
+                startActivityForResult(locationIntent, 2021)
 
 
             }
