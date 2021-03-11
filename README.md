@@ -3,12 +3,8 @@
      var locationIntent = Intent(this, LocationActivity::class.java) <br />
      startActivityForResult(locationIntent, 2021)
 
-you can pass your current location to map with this parameters
 
-     locationIntent.putExtra("latitude" , userLatLng.latitude)
-     locationIntent.putExtra("longitude" , userLatLng.longitude)
-
-and recieve it in onactivity results ( City , Country , State , Postal Code , Address ) // Note that one of these params can be null
+    recieve it in onactivity results ( City , Country , State , Postal Code , Address ) // Note that one of these params can be null
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
