@@ -15,6 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LocationPicker"
         tools:replace="android:theme">
+
+
+
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +29,6 @@
 
 
 
-</application>
+    </application>
 
-    </manifest>
+</manifest>
