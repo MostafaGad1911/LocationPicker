@@ -39,6 +39,7 @@ and recieve it in onactivity results ( City , Country , State , Postal Code , Ad
 
 # LocationPicker
 
+  ** add firebase analytic first implementation 'com.google.firebase:firebase-analytics:17.5.0' ** <br />
   implementation 'com.github.MostafaGad1911:SharedSettings:Tag'
 
    
