@@ -285,7 +285,6 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                     val distance: Float = locFrom.distanceTo(locTo)
                     var dis  = distance(userCurrentLoc?.latitude!! , userCurrentLoc?.longitude!! , newUserLatLng?.latitude!! , newUserLatLng?.longitude!!)
                     addressObj.distance =dis?.roundToInt()!!
-                    Log.i("Distance" , "${addressObj.distance}")
 
                     val intent = Intent()
                     intent.putExtra("addressDetected", addressObj)

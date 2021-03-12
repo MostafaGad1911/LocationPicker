@@ -106,6 +106,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 2021) {
             var address = data?.getSerializableExtra("addressDetected") as Address
+            Log.i("Distance" , "${address.distance}")
             address.city?.let {
                 city_name_txt.setText("City = ${address.city}")
             }
