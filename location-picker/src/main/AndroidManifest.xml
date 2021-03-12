@@ -14,18 +14,22 @@
         android:glEsVersion="0x00020000"
         android:required="true" />
 
-    <application android:theme="@style/Theme.LocationDetector"
-        tools:replace="android:theme"
-        >
+    <application
+        android:theme="@style/Theme.LocationDetector"
+        tools:replace="android:theme">
 
-        <activity android:name=".activities.LocationActivity"></activity>
 
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        <activity android:name=".activities.LocationActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyAUYHXEpV25VBka9wJtv3VUfq_H2DgzZT4" />
 
     </application>
 

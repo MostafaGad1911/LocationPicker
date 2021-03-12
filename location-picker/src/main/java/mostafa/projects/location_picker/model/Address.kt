@@ -11,5 +11,6 @@ class Address :Serializable {
     var country:String? = null
     var postalCode:String? = null
     var knownName:String? = null
+    var distance:Int? = null
 
 }
