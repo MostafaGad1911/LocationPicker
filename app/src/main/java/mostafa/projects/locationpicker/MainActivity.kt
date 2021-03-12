@@ -164,9 +164,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 
                     }
                 } else {
-                    Toast.makeText(this, "يا اسطي اقبل متهزرش معايا", Toast.LENGTH_SHORT).show()
-
-
+                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
                 return
             }
