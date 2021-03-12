@@ -43,7 +43,7 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
 
  ``` kotlin  
  - allprojects 
-               {
+             {
 	         repositories 
 		       {	
 			  maven { url 'https://jitpack.io' }
