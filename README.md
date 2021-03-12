@@ -40,9 +40,12 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
 
 # Getting Started 
 ## Step 1: Add it to build.gradle (project level) at the end of repositories:
-```
- - allprojects {
-	         repositories {	
+
+ ``` kotlin  
+ - allprojects 
+           {
+	         repositories 
+		       {	
 			  maven { url 'https://jitpack.io' }
 		       } 
 	       }
@@ -50,7 +53,7 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
         
 
 ## Step 2 : Add the dependency
-```
+ ``` kotlin  
         implementation 'com.google.firebase:firebase-analytics:17.5.0'
         implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
         
