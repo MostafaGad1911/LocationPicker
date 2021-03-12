@@ -282,7 +282,6 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                     locFrom.latitude = newUserLatLng.latitude!!
                     locFrom.longitude = newUserLatLng.longitude!!
 
-                    val distance: Float = locFrom.distanceTo(locTo)
                     var dis  = distance(userCurrentLoc?.latitude!! , userCurrentLoc?.longitude!! , newUserLatLng?.latitude!! , newUserLatLng?.longitude!!)
                     addressObj.distance =dis?.roundToInt()!!
 

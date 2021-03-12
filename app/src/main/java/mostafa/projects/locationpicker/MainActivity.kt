@@ -107,24 +107,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         if (resultCode == Activity.RESULT_OK && requestCode == 2021) {
             var address = data?.getSerializableExtra("addressDetected") as Address
             Log.i("Distance" , "${address.distance}")
-            address.city?.let {
-                city_name_txt.setText("City = ${address.city}")
-            }
-            address.state?.let {
-                state_name_txt.setText("State = ${address.state}")
-            }
-            address.country?.let {
-                country_name_txt.setText("Country = ${address.country}")
-            }
-            address.postalCode?.let {
-                postalCode_name_txt.setText("Postal Code = ${address.postalCode}")
-            }
-            address.knownName?.let {
-                knownName_name_txt.setText("Known name = ${address.knownName}")
-            }
-            address.lat?.let {
-                latlong_name_txt.setText("LatLong = ${address.lat} , ${address.long}")
-            }
+
 
         }
     }
