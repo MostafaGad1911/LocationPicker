@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.Log
@@ -289,7 +290,9 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                     intent.putExtra("addressDetected", addressObj)
                     setResult(Activity.RESULT_OK, intent)
                     finish()
-                    overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    }
 
                 }
             }
