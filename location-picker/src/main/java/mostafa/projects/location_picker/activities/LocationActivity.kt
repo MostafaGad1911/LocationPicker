@@ -157,6 +157,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
     override fun onBackPressed() {
         val intent = Intent()
         setResult(Activity.RESULT_CANCELED, intent)
+        finish()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
             overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
         }
