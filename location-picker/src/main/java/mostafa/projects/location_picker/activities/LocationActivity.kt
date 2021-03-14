@@ -24,12 +24,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.schibstedspain.leku.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import mostafa.projects.location_picker.PermissionUtils
-import mostafa.projects.location_picker.R
 import mostafa.projects.location_picker.model.Address
 import java.util.*
 import kotlin.math.roundToInt
