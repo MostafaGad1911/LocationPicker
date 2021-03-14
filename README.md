@@ -2,6 +2,19 @@
 [![](https://jitpack.io/v/MostafaGad1911/LocationPicker.svg)](https://jitpack.io/#MostafaGad1911/LocationPicker)
 
  With a few lines of code you can to **detect your address, lat, long** from map, just intent to location activity with result and click pick location button affter detecting your location on map to start geocoding process to get your address.
+ 
+ Usage
+To use the LocationPickerActivity first you need to add these lines to your AndroidManifest file:
+
+``` xml 
+ <activity
+            android:name="mostafa.projects.location_picker.activities.LocationActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
+            android:windowSoftInputMode="adjustPan"
+            >
+        </activity>
+```
+
 ``` kotlin 
      var locationIntent = Intent(this, LocationActivity::class.java) 
      startActivityForResult(locationIntent, 2021)
