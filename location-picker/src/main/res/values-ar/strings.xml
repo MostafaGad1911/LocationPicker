@@ -1,0 +1,8 @@
+<resources>
+    <string name="retry_error">Something went wrong, please try again later</string>
+    <string name="add_address">Add address</string>
+
+    <string name="confirm_address">تـأكيد العنوان</string>
+    <string name="detect_failed">لم نتمكن من تحديد الموقع , حاول مرة أخري</string>
+
+</resources>

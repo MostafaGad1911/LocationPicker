@@ -155,6 +155,14 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
     }
 
 
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_CANCELED, intent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+        }
+    }
+
     override fun onMapReady(googleMap: GoogleMap) {
         Log.i("LocationReady" , "launched")
 
@@ -238,7 +246,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                             } else {
                                 address = ""
                                 withContext(Dispatchers.Main){
-                                    Toast.makeText(this@LocationActivity, "Cannot detect your address please try again", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(this@LocationActivity, getString(R.string.detect_failed), Toast.LENGTH_LONG).show()
 
                                 }
 
@@ -246,7 +254,7 @@ class LocationActivity : AppCompatActivity(), OnMapReadyCallback , View.OnClickL
                         } catch (e: Exception) {
                             address = ""
                             withContext(Dispatchers.Main){
-                                Toast.makeText(this@LocationActivity, "Cannot detect your address please try again", Toast.LENGTH_LONG).show()
+                                Toast.makeText(this@LocationActivity, getString(R.string.detect_failed), Toast.LENGTH_LONG).show()
 
                             }
                         }

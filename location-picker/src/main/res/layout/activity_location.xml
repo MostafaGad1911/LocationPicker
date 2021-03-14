@@ -32,7 +32,7 @@
             android:layout_marginBottom="16dp"
             android:padding="15dp"
             android:background="@drawable/location_border"
-            android:text="Confirm address"
+            android:text="@string/confirm_address"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="16sp"
