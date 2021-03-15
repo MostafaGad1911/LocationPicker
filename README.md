@@ -7,7 +7,7 @@
 To use the LocationPickerActivity first you need to add these lines to your AndroidManifest file:
 
 ``` xml 
- <activity
+        <activity
             android:name="mostafa.projects.location_picker.activities.LocationActivity"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
             android:windowSoftInputMode="adjustPan"
