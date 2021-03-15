@@ -55,8 +55,8 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
 ## Step 1: Add it to build.gradle (project level) at the end of repositories:
 
  ``` kotlin  
- - allprojects 
-           {
+             allprojects 
+               {
 	         repositories 
 		       {	
 			  maven { url 'https://jitpack.io' }
