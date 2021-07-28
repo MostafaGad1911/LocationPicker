@@ -12,5 +12,9 @@ class Address :Serializable {
     var postalCode:String? = null
     var knownName:String? = null
     var distance:Int? = null
+    var streetName:String? = null
 
+    fun DataToString():String{
+        return "Address :  { Country : ${country} , Government : ${state} , City : ${city} , StreetName ${streetName} }"
+    }
 }

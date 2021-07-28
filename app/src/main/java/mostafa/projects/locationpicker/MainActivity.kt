@@ -33,57 +33,11 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
     lateinit var knownName_name_txt:TextView
     lateinit var latlong_name_txt:TextView
 
-    lateinit var userLatLng:LatLng
-    lateinit var mFusedLocationClient: FusedLocationProviderClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initObjects()
         initViews()
-
-    }
-
-    fun initObjects(){
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this!!)
-    }
-    fun checkPermissions() {
-        val requiredPermission = Manifest.permission.ACCESS_FINE_LOCATION
-        val checkVal: Int =
-            PermissionChecker.checkCallingOrSelfPermission(this, requiredPermission)
-        if (checkVal == PackageManager.PERMISSION_GRANTED) {
-            mFusedLocationClient.lastLocation
-                .addOnSuccessListener { location: Location? ->
-                    try {
-                        userLatLng = LatLng(location!!.latitude, location!!.longitude)
-                        var locationIntent = Intent(this, LocationActivity::class.java)
-                        if(userLatLng != null){
-                            locationIntent.putExtra("latitude" , userLatLng.latitude)
-                            locationIntent.putExtra("longitude" , userLatLng.longitude)
-                        }
-//                        showToast("${userLatLng.latitude},${userLatLng.longitude}")
-
-                        startActivityForResult(locationIntent, 2021)
-                        overridePendingTransition(
-                            R.anim.fade_in,
-                            R.anim.fade_out
-                        )
-
-                    } catch (e: NullPointerException) {
-
-                    }
-                }.addOnFailureListener {
-                    Log.w("LocationException", it!!.message!!)
-                }
-
-
-
-        } else {
-            ActivityCompat.requestPermissions(
-                this!!,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 120
-            )
-        }
     }
 
     fun showToast(msg: String) {
@@ -104,65 +58,23 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == 2021) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 203) {
             var address = data?.getSerializableExtra("addressDetected") as Address
-            Log.i("Distance" , "${address.distance}")
+            Log.i("Address" , "${address.DataToString()}")
 
 
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
-                                            grantResults: IntArray) {
-        when (requestCode) {
-            120 -> {
-                if (grantResults.isNotEmpty() && grantResults[0] ==
-                    PackageManager.PERMISSION_GRANTED) {
-                    if ((ContextCompat.checkSelfPermission(this@MainActivity,
-                            Manifest.permission.ACCESS_FINE_LOCATION) ===
-                                PackageManager.PERMISSION_GRANTED)) {
-                        Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show()
-                        mFusedLocationClient.lastLocation
-                            .addOnSuccessListener { location: Location? ->
-                                try {
-                                    userLatLng = LatLng(location!!.latitude, location!!.longitude)
-                                    var locationIntent = Intent(this, LocationActivity::class.java)
-                                    if(userLatLng != null){
-                                        locationIntent.putExtra("latitude" , userLatLng.latitude)
-                                        locationIntent.putExtra("longitude" , userLatLng.longitude)
-                                    }
-//                                    showToast("${userLatLng.latitude},${userLatLng.longitude}")
-
-                                    startActivityForResult(locationIntent, 2021)
-                                    overridePendingTransition(
-                                        R.anim.fade_in,
-                                        R.anim.fade_out
-                                    )
-
-                                } catch (e: NullPointerException) {
-
-                                }
-                            }.addOnFailureListener {
-                                Log.w("LocationException", it!!.message!!)
-                            }
-
-                    }
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show()
-                }
-                return
-            }
-        }
-    }
 
 
     override fun onClick(v: View?) {
         when(v?.id){
             R.id.pick_loc_btn -> {
 
-                var locationIntent = Intent(this, LocationActivity::class.java)
-
-                startActivityForResult(locationIntent, 2021)
+                val intent = Intent(this, LocationActivity::class.java)
+                startActivityForResult(intent , 203)
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
 
 
             }

@@ -4,5 +4,9 @@
 
     <string name="confirm_address">تـأكيد العنوان</string>
     <string name="detect_failed">لم نتمكن من تحديد الموقع , حاول مرة أخري</string>
+    <string name="enable_location">تفعيل الموقع</string>
+    <string name="location_msg">اعدادات الموقع الخاصة بك غير مفعلة برجاء التفعيل</string>
+    <string name="location_settings">إعدادات الموقع</string>
+    <string name="location_cancel">إلغاء</string>
 
 </resources>

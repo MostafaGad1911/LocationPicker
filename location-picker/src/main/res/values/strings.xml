@@ -4,5 +4,9 @@
 
     <string name="confirm_address">Confirm address</string>
     <string name="detect_failed">Cannot detect your address please try again</string>
+    <string name="enable_location">Enable Location</string>
+    <string name="location_msg">Your Locations Settings is set to Off.Please Enable Location to pick location</string>
+    <string name="location_settings">Location Settings</string>
+    <string name="location_cancel">Cancel</string>
 
 </resources>

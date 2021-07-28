@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "539294516482",
+    "project_id": "testlocationpicker-321218",
+    "storage_bucket": "testlocationpicker-321218.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539294516482:android:85cb940ca7aaee5fbdee1b",
+        "android_client_info": {
+          "package_name": "mostafa.projects.locationpicker"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "539294516482-ihgsvsjccff5ng5mgaf9tt9to1rfu9sn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlR7_HvK1AnTnkrSwN3PccSPS0TmUc448"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "539294516482-ihgsvsjccff5ng5mgaf9tt9to1rfu9sn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
