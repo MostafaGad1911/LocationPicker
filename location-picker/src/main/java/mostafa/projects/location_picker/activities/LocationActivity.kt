@@ -31,13 +31,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import mostafa.projects.location_picker.GpsUtils
 import java.util.*
 import mostafa.projects.location_picker.R
 import kotlin.math.roundToInt
 
 
 class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyCallback,
-    com.google.android.gms.location.LocationListener {
+    com.google.android.gms.location.LocationListener, GpsUtils.GpsCallback {
 
     private var REQUEST_LOCATION_CODE = 101
     lateinit var googleMap: GoogleMap
@@ -48,11 +49,18 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(
-            R.layout.activity_location)
+            R.layout.activity_location
+        )
         initObjects()
         setUpMap()
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 201) {
+            getLocation()
+        }
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -97,7 +105,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
     }
 
 
-     fun initObjects() {
+    fun initObjects() {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
@@ -145,8 +153,9 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
         dialog.setTitle(getString(R.string.enable_location))
             .setMessage(getString(R.string.location_msg))
             .setPositiveButton(getString(R.string.location_settings)) { paramDialogInterface, paramInt ->
-                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(myIntent)
+                GpsUtils(this).turnGPSOn(this)
+//                val myIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//                startActivity(myIntent)
             }
             .setNegativeButton(getString(R.string.location_cancel)) { paramDialogInterface, paramInt ->
                 val intent = Intent()
@@ -154,6 +163,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                 finish()
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
             }
+        dialog.setCancelable(false)
         dialog.show()
     }
 
@@ -206,12 +216,15 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 try {
-                    Log.i("CURRENT_LOCATION" , "${location?.latitude} , ${location?.longitude}")
+                    Log.i("CURRENT_LOCATION", "${location?.latitude} , ${location?.longitude}")
 
                     val cameraPosition = CameraPosition.Builder()
-                        .target(LatLng(location?.latitude!! , location?.longitude!!)).zoom(12f).build()
-                    googleMap.animateCamera(CameraUpdateFactory
-                        .newCameraPosition(cameraPosition))
+                        .target(LatLng(location?.latitude!!, location?.longitude!!)).zoom(12f)
+                        .build()
+                    googleMap.animateCamera(
+                        CameraUpdateFactory
+                            .newCameraPosition(cameraPosition)
+                    )
 
                     googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                         override fun onMapClick(p0: LatLng?) {
@@ -220,13 +233,16 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                                 val markerOptions = MarkerOptions().position(p0)
                                     .icon(
                                         BitmapDescriptorFactory.defaultMarker(
-                                            BitmapDescriptorFactory.HUE_BLUE))
+                                            BitmapDescriptorFactory.HUE_BLUE
+                                        )
+                                    )
                                 googleMap!!.addMarker(markerOptions)
                                 CoroutineScope(Dispatchers.IO).launch {
                                     try {
                                         val geocoder: Geocoder
                                         val addresses: List<android.location.Address>
-                                        geocoder = Geocoder(this@LocationActivity, Locale.getDefault())
+                                        geocoder =
+                                            Geocoder(this@LocationActivity, Locale.getDefault())
                                         addresses = geocoder.getFromLocation(
                                             p0.latitude,
                                             p0.longitude,
@@ -241,36 +257,42 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                                             val state = addresses[0].adminArea
                                             val country = addresses[0].countryName
                                             val postalCode = addresses[0].postalCode
-                                            val knownName = addresses[0].featureName // Only if available else return NULL
+                                            val knownName =
+                                                addresses[0].featureName // Only if available else return NULL
                                             val streetName = addresses[0].getAddressLine(1)
 
 
-                                            if(city != null){
+                                            if (city != null) {
                                                 addressObj.city = city
                                             }
 
-                                            if(state != null){
+                                            if (state != null) {
                                                 addressObj.state = state
                                             }
-                                            if(streetName != null){
+                                            if (streetName != null) {
                                                 addressObj.streetName = streetName
                                             }
 
 
-                                            if(country != null){
+                                            if (country != null) {
                                                 addressObj.country = country
                                             }
 
-                                            if(postalCode != null){
+                                            if (postalCode != null) {
                                                 addressObj.postalCode = postalCode
                                             }
 
-                                            if(knownName != null){
+                                            if (knownName != null) {
                                                 addressObj.knownName = knownName
                                             }
 
-                                            var dis  = distance(location?.latitude!! , location?.longitude!! , p0?.latitude!! , p0?.longitude!!)
-                                            addressObj.distance =dis?.roundToInt()!!
+                                            var dis = distance(
+                                                location?.latitude!!,
+                                                location?.longitude!!,
+                                                p0?.latitude!!,
+                                                p0?.longitude!!
+                                            )
+                                            addressObj.distance = dis?.roundToInt()!!
 
                                             withContext(Dispatchers.Main) {
                                                 markerOptions.title(title)
@@ -285,11 +307,14 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                                             setResult(Activity.RESULT_OK, intent)
                                             finish()
                                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-                                                overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                                                overridePendingTransition(
+                                                    R.anim.fade_in,
+                                                    R.anim.fade_out
+                                                )
                                             }
                                         } else {
                                             address = ""
-                                            withContext(Dispatchers.Main){
+                                            withContext(Dispatchers.Main) {
                                                 this@LocationActivity.tost(getString(R.string.detect_failed))
 
                                             }
@@ -297,7 +322,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                                         }
                                     } catch (e: Exception) {
                                         address = ""
-                                        withContext(Dispatchers.Main){
+                                        withContext(Dispatchers.Main) {
                                             this@LocationActivity.tost(getString(R.string.detect_failed))
 
                                         }
@@ -320,6 +345,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
 
     fun Context.tost(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
+    @RequiresApi(Build.VERSION_CODES.ECLAIR)
     override fun onMapReady(p0: GoogleMap) {
         googleMap = p0
         googleMap.uiSettings?.setMyLocationButtonEnabled(true)
@@ -354,6 +380,15 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                 .title("Marker in Sydney")
         )
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    override fun onGpsStateUpdated(isGPSEnable: Boolean, locationDelay: Long) {
+        if (isGPSEnable) {
+            getLocation()
+        }else{
+            Toast.makeText(this, getString(R.string.location_msg), Toast.LENGTH_LONG).show()
+
+        }
 
     }
 }

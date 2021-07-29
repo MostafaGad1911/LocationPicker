@@ -61,6 +61,12 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
         if (resultCode == Activity.RESULT_OK && requestCode == 203) {
             var address = data?.getSerializableExtra("addressDetected") as Address
             Log.i("Address" , "${address.DataToString()}")
+            city_name_txt.setText(address.city)
+            state_name_txt.setText(address.state)
+            country_name_txt.setText(address.country)
+            postalCode_name_txt.setText(address.postalCode)
+            knownName_name_txt.setText(address.knownName)
+            latlong_name_txt.setText("${address.lat},${address.long}")
 
 
         }
