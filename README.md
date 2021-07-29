@@ -70,7 +70,7 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
         implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
         
 ```        
-current **Tag** -> [![](https://jitpack.io/v/MostafaGad1911/LocationPicker.svg)](https://jitpack.io/#MostafaGad1911/LocationPicker)	   
+[![](https://jitpack.io/v/MostafaGad1911/LocationPicker.svg)](https://jitpack.io/#MostafaGad1911/LocationPicker)	   
 
 # Sample 
 
