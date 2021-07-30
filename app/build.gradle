@@ -19,12 +19,8 @@ android {
 
     buildTypes {
         debug {
-            resValue "string", "google_maps_key",
-                    (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyAUYHXEpV25VBka9wJtv3VUfq_H2DgzZT4")
         }
         release {
-            resValue "string", "google_maps_key",
-                    (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyAUYHXEpV25VBka9wJtv3VUfq_H2DgzZT4")
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
