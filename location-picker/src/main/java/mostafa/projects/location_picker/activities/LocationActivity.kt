@@ -61,6 +61,15 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
             getLocation()
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.ECLAIR)
+    override fun onBackPressed() {
+        val intent = Intent()
+        setResult(Activity.RESULT_CANCELED, intent)
+        finish()
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<String>,
@@ -385,7 +394,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
     override fun onGpsStateUpdated(isGPSEnable: Boolean, locationDelay: Long) {
         if (isGPSEnable) {
             getLocation()
-        }else{
+        } else {
             Toast.makeText(this, getString(R.string.location_msg), Toast.LENGTH_LONG).show()
 
         }
