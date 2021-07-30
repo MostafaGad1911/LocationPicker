@@ -65,12 +65,12 @@ then override **onActivityResult** abd get your data  ( City, Country, State, Po
 ```          
         
 
-## Step 2 : Add the dependency
+## Step 2 : Add the dependency  [![](https://jitpack.io/v/MostafaGad1911/LocationPicker.svg)](https://jitpack.io/#MostafaGad1911/LocationPicker)	   
+
  ``` kotlin  
         implementation 'com.github.MostafaGad1911:LocationPicker:Tag'
         
 ```        
-current **Tag** -> [![](https://jitpack.io/v/MostafaGad1911/LocationPicker.svg)](https://jitpack.io/#MostafaGad1911/LocationPicker)	   
 
 # Sample 
 
