@@ -224,128 +224,253 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
         }
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
-                try {
-                    Log.i("CURRENT_LOCATION", "${location?.latitude} , ${location?.longitude}")
+                if(location != null){
+                    try {
+                        Log.i("CURRENT_LOCATION", "${location?.latitude} , ${location?.longitude}")
 
-                    val cameraPosition = CameraPosition.Builder()
-                        .target(LatLng(location?.latitude!!, location?.longitude!!)).zoom(12f)
-                        .build()
-                    googleMap.animateCamera(
-                        CameraUpdateFactory
-                            .newCameraPosition(cameraPosition)
-                    )
+                        val cameraPosition = CameraPosition.Builder()
+                                .target(LatLng(location?.latitude!!, location?.longitude!!)).zoom(12f)
+                                .build()
+                        googleMap.animateCamera(
+                                CameraUpdateFactory
+                                        .newCameraPosition(cameraPosition)
+                        )
 
-                    googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
-                        override fun onMapClick(p0: LatLng?) {
-                            googleMap?.clear()
-                            if (p0 != null) {
-                                val markerOptions = MarkerOptions().position(p0)
-                                    .icon(
-                                        BitmapDescriptorFactory.defaultMarker(
-                                            BitmapDescriptorFactory.HUE_BLUE
-                                        )
-                                    )
-                                googleMap!!.addMarker(markerOptions)
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    try {
-                                        val geocoder: Geocoder
-                                        val addresses: List<android.location.Address>
-                                        geocoder =
-                                            Geocoder(this@LocationActivity, Locale.getDefault())
-                                        addresses = geocoder.getFromLocation(
-                                            p0.latitude,
-                                            p0.longitude,
-                                            1
-                                        )
-                                        if (addresses != null) {
-                                            var title = addresses[0].getAddressLine(0)
-                                            var addressValue =
-                                                addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
-
-                                            val city = addresses[0].locality
-                                            val state = addresses[0].adminArea
-                                            val country = addresses[0].countryName
-                                            val postalCode = addresses[0].postalCode
-                                            val knownName =
-                                                addresses[0].featureName // Only if available else return NULL
-                                            val streetName = addresses[0].getAddressLine(1)
-
-
-                                            if (city != null) {
-                                                addressObj.city = city
-                                            }
-
-                                            if (state != null) {
-                                                addressObj.state = state
-                                            }
-                                            if (streetName != null) {
-                                                addressObj.streetName = streetName
-                                            }
-
-
-                                            if (country != null) {
-                                                addressObj.country = country
-                                            }
-
-                                            if (postalCode != null) {
-                                                addressObj.postalCode = postalCode
-                                            }
-
-                                            if (knownName != null) {
-                                                addressObj.knownName = knownName
-                                            }
-
-                                            var dis = distance(
-                                                location?.latitude!!,
-                                                location?.longitude!!,
-                                                p0?.latitude!!,
-                                                p0?.longitude!!
+                        googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                            override fun onMapClick(p0: LatLng?) {
+                                googleMap?.clear()
+                                if (p0 != null) {
+                                    val markerOptions = MarkerOptions().position(p0)
+                                            .icon(
+                                                    BitmapDescriptorFactory.defaultMarker(
+                                                            BitmapDescriptorFactory.HUE_BLUE
+                                                    )
                                             )
-                                            addressObj.distance = dis?.roundToInt()!!
+                                    googleMap!!.addMarker(markerOptions)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        try {
+                                            val geocoder: Geocoder
+                                            val addresses: List<android.location.Address>
+                                            geocoder =
+                                                    Geocoder(this@LocationActivity, Locale.getDefault())
+                                            addresses = geocoder.getFromLocation(
+                                                    p0.latitude,
+                                                    p0.longitude,
+                                                    1
+                                            )
+                                            if (addresses != null) {
+                                                var title = addresses[0].getAddressLine(0)
+                                                var addressValue =
+                                                        addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
 
-                                            withContext(Dispatchers.Main) {
-                                                markerOptions.title(title)
-                                                address = title
-                                            }
-                                            addressObj.lat = p0.latitude
-                                            addressObj.long = p0.longitude
+                                                val city = addresses[0].locality
+                                                val state = addresses[0].adminArea
+                                                val country = addresses[0].countryName
+                                                val postalCode = addresses[0].postalCode
+                                                val knownName =
+                                                        addresses[0].featureName // Only if available else return NULL
+                                                val streetName = addresses[0].getAddressLine(1)
 
 
-                                            val intent = Intent()
-                                            intent.putExtra("addressDetected", addressObj)
-                                            setResult(Activity.RESULT_OK, intent)
-                                            finish()
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
-                                                overridePendingTransition(
-                                                    R.anim.fade_in,
-                                                    R.anim.fade_out
+                                                if (city != null) {
+                                                    addressObj.city = city
+                                                }
+
+                                                if (state != null) {
+                                                    addressObj.state = state
+                                                }
+                                                if (streetName != null) {
+                                                    addressObj.streetName = streetName
+                                                }
+
+
+                                                if (country != null) {
+                                                    addressObj.country = country
+                                                }
+
+                                                if (postalCode != null) {
+                                                    addressObj.postalCode = postalCode
+                                                }
+
+                                                if (knownName != null) {
+                                                    addressObj.knownName = knownName
+                                                }
+
+                                                var dis = distance(
+                                                        location?.latitude!!,
+                                                        location?.longitude!!,
+                                                        p0?.latitude!!,
+                                                        p0?.longitude!!
                                                 )
+                                                addressObj.distance = dis?.roundToInt()!!
+
+                                                withContext(Dispatchers.Main) {
+                                                    markerOptions.title(title)
+                                                    address = title
+                                                }
+                                                addressObj.lat = p0.latitude
+                                                addressObj.long = p0.longitude
+
+
+                                                val intent = Intent()
+                                                intent.putExtra("addressDetected", addressObj)
+                                                setResult(Activity.RESULT_OK, intent)
+                                                finish()
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+                                                    overridePendingTransition(
+                                                            R.anim.fade_in,
+                                                            R.anim.fade_out
+                                                    )
+                                                }
+                                            } else {
+                                                address = ""
+                                                withContext(Dispatchers.Main) {
+                                                    this@LocationActivity.tost(getString(R.string.detect_failed))
+
+                                                }
+
                                             }
-                                        } else {
+                                        } catch (e: Exception) {
                                             address = ""
                                             withContext(Dispatchers.Main) {
                                                 this@LocationActivity.tost(getString(R.string.detect_failed))
 
                                             }
-
-                                        }
-                                    } catch (e: Exception) {
-                                        address = ""
-                                        withContext(Dispatchers.Main) {
-                                            this@LocationActivity.tost(getString(R.string.detect_failed))
-
                                         }
                                     }
+
                                 }
-
                             }
-                        }
 
-                    })
+                        })
 
 
-                } catch (e: NullPointerException) {
+                    } catch (e: NullPointerException) {
 
+                    }
+
+                }else{
+                    try {
+                        Log.i("CURRENT_LOCATION", "${27.0035907} , ${25.5312804}")
+
+                        val cameraPosition = CameraPosition.Builder()
+                                .target(LatLng(27.0035907!!, 25.5312804!!)).zoom(12f)
+                                .build()
+                        googleMap.animateCamera(
+                                CameraUpdateFactory
+                                        .newCameraPosition(cameraPosition)
+                        )
+
+                        googleMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                            override fun onMapClick(p0: LatLng?) {
+                                googleMap?.clear()
+                                if (p0 != null) {
+                                    val markerOptions = MarkerOptions().position(p0)
+                                            .icon(
+                                                    BitmapDescriptorFactory.defaultMarker(
+                                                            BitmapDescriptorFactory.HUE_BLUE
+                                                    )
+                                            )
+                                    googleMap!!.addMarker(markerOptions)
+                                    CoroutineScope(Dispatchers.IO).launch {
+                                        try {
+                                            val geocoder: Geocoder
+                                            val addresses: List<android.location.Address>
+                                            geocoder =
+                                                    Geocoder(this@LocationActivity, Locale.getDefault())
+                                            addresses = geocoder.getFromLocation(
+                                                    p0.latitude,
+                                                    p0.longitude,
+                                                    1
+                                            )
+                                            if (addresses != null) {
+                                                var title = addresses[0].getAddressLine(0)
+                                                var addressValue =
+                                                        addresses[0].getAddressLine(0) // If any additional address line present than only, check with max available address lines by getMaxAddressLineIndex()
+
+                                                val city = addresses[0].locality
+                                                val state = addresses[0].adminArea
+                                                val country = addresses[0].countryName
+                                                val postalCode = addresses[0].postalCode
+                                                val knownName =
+                                                        addresses[0].featureName // Only if available else return NULL
+                                                val streetName = addresses[0].getAddressLine(1)
+
+
+                                                if (city != null) {
+                                                    addressObj.city = city
+                                                }
+
+                                                if (state != null) {
+                                                    addressObj.state = state
+                                                }
+                                                if (streetName != null) {
+                                                    addressObj.streetName = streetName
+                                                }
+
+
+                                                if (country != null) {
+                                                    addressObj.country = country
+                                                }
+
+                                                if (postalCode != null) {
+                                                    addressObj.postalCode = postalCode
+                                                }
+
+                                                if (knownName != null) {
+                                                    addressObj.knownName = knownName
+                                                }
+
+                                                var dis = distance(
+                                                        location?.latitude!!,
+                                                        location?.longitude!!,
+                                                        p0?.latitude!!,
+                                                        p0?.longitude!!
+                                                )
+                                                addressObj.distance = dis?.roundToInt()!!
+
+                                                withContext(Dispatchers.Main) {
+                                                    markerOptions.title(title)
+                                                    address = title
+                                                }
+                                                addressObj.lat = p0.latitude
+                                                addressObj.long = p0.longitude
+
+
+                                                val intent = Intent()
+                                                intent.putExtra("addressDetected", addressObj)
+                                                setResult(Activity.RESULT_OK, intent)
+                                                finish()
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+                                                    overridePendingTransition(
+                                                            R.anim.fade_in,
+                                                            R.anim.fade_out
+                                                    )
+                                                }
+                                            } else {
+                                                address = ""
+                                                withContext(Dispatchers.Main) {
+                                                    this@LocationActivity.tost(getString(R.string.detect_failed))
+
+                                                }
+
+                                            }
+                                        } catch (e: Exception) {
+                                            address = ""
+                                            withContext(Dispatchers.Main) {
+                                                this@LocationActivity.tost(getString(R.string.detect_failed))
+
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+
+                        })
+
+
+                    } catch (e: NullPointerException) { }
                 }
             }.addOnFailureListener {
             }
