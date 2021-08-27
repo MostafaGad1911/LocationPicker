@@ -5,16 +5,20 @@ plugins {
 
 android {
     compileSdkVersion 30
+    compileSdkVersion 30
+    defaultConfig {
+        targetSdkVersion 30
+    }
 
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             resValue "string", "google_maps_key",
                     (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyCzA1GVYvmXfS49av1oNTi4pAoIPwIhhqg")
         }
         release {
-            minifyEnabled false
+            minifyEnabled true
             resValue "string", "google_maps_key",
                     (project.findProperty("GOOGLE_MAPS_API_KEY") ?: "AIzaSyCzA1GVYvmXfS49av1oNTi4pAoIPwIhhqg")
             minifyEnabled false
