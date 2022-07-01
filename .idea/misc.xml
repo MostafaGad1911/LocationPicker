@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Development/PublishedLibs/LocationPicker/location-picker/src/main/res/drawable/ic_baseline_map_24.xml" value="0.1165" />
         <entry key="..\:/Development/PublishedLibs/LocationPicker/location-picker/src/main/res/layout/activity_location.xml" value="0.25" />
+        <entry key="..\:/Development/PublishedLibs/LocationPicker/location-picker/src/main/res/layout/location_warn.xml" value="0.28888888888888886" />
       </map>
     </option>
   </component>

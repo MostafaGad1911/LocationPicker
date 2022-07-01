@@ -1,10 +1,7 @@
 package mostafa.projects.locationpicker
 
-import android.Manifest
 import android.app.Activity
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,15 +9,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.content.PermissionChecker
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
 import mostafa.projects.location_picker.activities.LocationActivity
-import mostafa.projects.location_picker.model.Address
 
 class MainActivity : AppCompatActivity() , View.OnClickListener {
 
@@ -59,7 +48,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 203) {
-            var address = data?.getSerializableExtra("addressDetected") as Address
+            var address = data?.getSerializableExtra("addressDetected") as mostafa.projects.location_picker.model.Address
             Log.i("Address" , "${address.DataToString()}")
             city_name_txt.setText(address.city)
             state_name_txt.setText(address.state)

@@ -130,6 +130,12 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
                 val closeImg = dialog.findViewById<ImageView>(R.id.closeImg)
                 closeImg.setOnClickListener {
                     dialog.dismiss()
+                    val intent = Intent()
+                    setResult(Activity.RESULT_CANCELED, intent)
+                    finish()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out)
+                    }
                 }
                 goSettingsTxt.setOnClickListener {
                     val intent = Intent()
@@ -207,7 +213,7 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
             this,
             R.style.DialogFragmentAnimation
         ).initDialog(R.layout.location_warn)
-        dialog.setCancelable(true)
+        dialog.setCancelable(false)
 
     }
 
