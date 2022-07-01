@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="retry_error">Something went wrong, please try again later</string>
+    <string name="retry_error">حدث خطأ برجاء المحاولة في وقت اخر</string>
     <string name="add_address">Add address</string>
 
     <string name="confirm_address">تـأكيد العنوان</string>
@@ -8,5 +9,12 @@
     <string name="location_msg">اعدادات الموقع الخاصة بك غير مفعلة برجاء التفعيل</string>
     <string name="location_settings">إعدادات الموقع</string>
     <string name="location_cancel">إلغاء</string>
+    <string name="background_location_permission_title">الوصول إلى الموقع لهذا التطبيق</string>
+    <string name="ok">موافق</string>
+    <string name="no">لا</string>
+    <string name="submit">تأكيد</string>
+    <string name="app_name">هيلو كير</string>
+    <string name="location_warn">لمواصلة إضافة موقعك ، تحتاج هيلو كير \nأولاً إلى قبول أذونات الموقع</string>
+    <string name="go_settings">الإعدادات</string>
 
 </resources>

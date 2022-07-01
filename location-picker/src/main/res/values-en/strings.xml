@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="retry_error">Something went wrong, please try again later</string>
     <string name="add_address">Add address</string>
@@ -5,8 +6,15 @@
     <string name="confirm_address">Confirm address</string>
     <string name="detect_failed">Cannot detect your address please try again</string>
     <string name="enable_location">Enable Location</string>
-    <string name="location_msg">Your GPS is set to Off.Please Enable GPS to pick location</string>
+    <string name="location_msg">Your locations settings is set to off.Please enable location to pick location</string>
     <string name="location_settings">Location Settings</string>
     <string name="location_cancel">Cancel</string>
+    <string name="background_location_permission_title">LOCATION ACCESS FOR THIS APP</string>
+    <string name="ok">Ok</string>
+    <string name="no">No</string>
+    <string name="submit">Submit</string>
+    <string name="app_name">Heallo Care</string>
+    <string name="location_warn">To continue adding your location heallo care \nneed firstly accept location permissions</string>
+    <string name="go_settings">Settings</string>
 
 </resources>

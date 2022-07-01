@@ -23,9 +23,9 @@ class GpsUtils(private val context: Context) {
     private val locationRequest: LocationRequest = LocationRequest.create()
 
     init {
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 10 * 1000.toLong()
-        locationRequest.fastestInterval = 4 * 1000.toLong()
+        locationRequest.priority = LocationRequest.PRIORITY_NO_POWER
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = 5000
 
         val builder: LocationSettingsRequest.Builder = LocationSettingsRequest
                 .Builder().addLocationRequest(locationRequest)
@@ -34,6 +34,7 @@ class GpsUtils(private val context: Context) {
 
         builder.setAlwaysShow(true) //this is the key ingredient
     }
+
 
     // method for turn on GPS
     @RequiresApi(Build.VERSION_CODES.DONUT)
