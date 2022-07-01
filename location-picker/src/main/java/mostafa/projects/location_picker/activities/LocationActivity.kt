@@ -74,6 +74,10 @@ class LocationActivity : androidx.appcompat.app.AppCompatActivity(), OnMapReadyC
         checkLocationResult()
     }
 
+    override fun onResume() {
+        getLocationPermission()
+        super.onResume()
+    }
     private fun checkLocationResult() {
         resultLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
