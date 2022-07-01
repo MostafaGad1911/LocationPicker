@@ -23,31 +23,6 @@
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         app:tint="@color/black" />
 
-    <ImageView
-        android:id="@+id/appLogoImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:scaleType="centerInside"
-        android:src="@drawable/heallo_care_icon"
-        />
-
-
-
-    <TextView
-        android:id="@+id/tvAppName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:gravity="center"
-        android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:textSize="15sp" />
-
     <TextView
         android:id="@+id/tvLocationWarnName"
         android:layout_width="wrap_content"
@@ -57,6 +32,7 @@
         android:gravity="center"
         android:text="@string/location_warn"
         android:textColor="@color/gray"
+        android:layout_marginTop="15dp"
         android:textStyle="normal"
         android:textSize="13sp" />
 

@@ -14,7 +14,7 @@
     <string name="no">No</string>
     <string name="submit">Submit</string>
     <string name="app_name">Heallo Care</string>
-    <string name="location_warn">To continue adding your location heallo care \nneed firstly accept location permissions</string>
+    <string name="location_warn">To continue adding your location  \nneed firstly accept location permissions</string>
     <string name="go_settings">Settings</string>
 
 </resources>

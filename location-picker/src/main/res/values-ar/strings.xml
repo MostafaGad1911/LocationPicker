@@ -14,7 +14,7 @@
     <string name="no">لا</string>
     <string name="submit">تأكيد</string>
     <string name="app_name">هيلو كير</string>
-    <string name="location_warn">لمواصلة إضافة موقعك ، تحتاج هيلو كير \nأولاً إلى قبول أذونات الموقع</string>
+    <string name="location_warn">لمواصلة إضافة موقعك ، تحتاج \nأولاً إلى قبول أذونات الموقع</string>
     <string name="go_settings">الإعدادات</string>
 
 </resources>
